@@ -1,0 +1,241 @@
+/*
+Theme Name: 	Presentation
+Description: 	Site to be used for Board Presentation
+Version: 		1.0
+Author: 		Damon Hastings
+*/
+
+/* ---------------------------------------------------------------------------------------------------------- 
+01 Sensible defaults ----------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------- */
+
+@import "css/reset.css";
+
+div,
+article,
+section,
+header,
+footer,
+nav,
+li					{ position:relative; /* For absolutely positioning elements within containers (add more to the list if need be) */ }
+.group:after 		{ display:block; height:0; clear:both; content:"."; visibility:hidden; /* For clearing */ }
+body 				{ background:#fff; /* Don't forget to style your body to avoid user overrides */ }
+::-moz-selection 	{ background:#ff0; color:#333; }
+::selection 		{ background:#ff0; color:#333; }
+
+/* ---------------------------------------------------------------------------------------------------------- 
+02 Typography -----------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------- */
+/*
+
+14 / 16	= 		0.875em 		(14px equivalent)
+16 / 16	= 		1em 			(16px equivalent)
+18 / 16 = 		1.125em 		(18px equivalent)
+21 / 16 = 		1.3125em 		(21px equivalent)
+24 / 16 = 		1.5em 			(24px equivalent)
+30 / 16 = 		1.875em 		(30px equivalent)
+
+*/
+
+body,
+input,
+textarea 			{ /* We strongly recommend you declare font-weight using numerical values, but check to see which weights you're exporting first */ }
+
+h1, 
+h2, 
+h3, 
+h4, 
+h5, 
+h6 					{ font-weight:bold; /* This helps to identify headings at the initial build stage, but you should write something more precise later on */ }
+
+/* ---------------------------------------------------------------------------------------------------------- 
+03 Media queries (using a mobile-first approach) ------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------- */
+
+/* 400 and up */
+@media screen and (min-width:400px) {
+
+					{ /* Place your styles here for all widths greater than 400px */ }
+
+}
+
+/* Retina Display */
+@media screen and (-webkit-min-device-pixel-ratio:2) {
+
+					{ /* Place your styles here for all 'Retina' screens */ }
+
+}
+
+/*** Styles ***/
+.section {
+	position: relative;
+	display: block;
+	width: 1024px;
+	margin:auto;
+}
+
+header {
+	height: 158px;
+	background: url('images/header.png') no-repeat 50% 50%;
+}
+
+.middle-content {
+	height: 402px;
+	background: url('images/middle-content.png') no-repeat 50% 50%;
+}
+.middle-content img {
+    float: right;
+    width: 240px;
+}
+
+.bottom-content {
+	height: 285px;
+	background: url('images/bottom-content.png') no-repeat 50% 50%
+}
+
+/**** Menu ****/
+.menu-mock-menu-container {
+    position: relative;
+    width: 980px;
+    height: 137px;
+    margin: auto;
+}
+header .menu {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	font-family: 'Archivo Narrow', sans-serif;
+	font-size: 14px;
+}
+
+header .menu > .menu-item {
+	display: inline-block;
+	width: 112px;
+	height: 50px;
+	margin-right: 2px;
+	font-size: 18px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	background: #07608f; /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzA3NjA4ZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDMwNDgiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  #07608f 0%, #003048 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#07608f), color-stop(100%,#003048)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #07608f 0%,#003048 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #07608f 0%,#003048 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #07608f 0%,#003048 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #07608f 0%,#003048 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#07608f', endColorstr='#003048',GradientType=0 ); /* IE6-8 */
+}
+#menu-item-70 {
+    margin: 0px 52px;
+    background: #f29644; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2YyOTY0NCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjYTVmMDAiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top,  #f29644 0%, #ca5f00 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f29644), color-stop(100%,#ca5f00)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #f29644 0%,#ca5f00 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #f29644 0%,#ca5f00 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #f29644 0%,#ca5f00 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #f29644 0%,#ca5f00 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f29644', endColorstr='#ca5f00',GradientType=0 ); /* IE6-8 */
+}
+
+#menu-item-68 {
+    width: 168px;
+}
+
+header .menu > .menu-item a {
+    position: absolute;
+    color: white;
+    text-decoration: none;
+    bottom: 5px;
+    left: 10px;
+}
+
+.sub-menu {
+	display: none;
+}
+
+.menu-item:hover .sub-menu { 
+    display: block;
+    position: absolute;
+	top: 50px;
+	z-index: 100;
+	min-height: 100px;
+	width: 100%;
+}
+
+.sub-menu .menu-item {
+    height: 24px;
+    font-size: 14px;
+    background: rgba(255,255,255, .9);
+}
+.sub-menu .menu-item:hover { background:rgba(198, 214, 226, 1);  }
+.sub-menu .menu-item:last-child {
+    -webkit-border-bottom-right-radius: 2px;
+    -webkit-border-bottom-left-radius: 2px;
+    -moz-border-radius-bottomright: 2px;
+    -moz-border-radius-bottomleft: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+}  
+header .sub-menu .menu-item a {
+    color: black;
+}
+
+/** Page Template **/
+.page-template-about-page-php {}
+.page-head {
+    border: 1px solid #e1e1e1;
+    border-width: 1px 0;
+    padding: 10px 0;
+    width: 1024px;
+    margin: auto;
+    font-family: 'Ubuntu', sans-serif;
+    position: relative;
+}
+
+.page-head h2 {
+    font-size: 30px;
+    text-transform: uppercase;
+    color:#013652;
+    width: 380px;
+    display: inline-block;
+    margin-left: 20px;
+    height: 1.1em;
+}
+
+#menu-about, #menu-members {
+    float: right;
+    margin-top: -21px;
+}
+.menu-about-container, .menu-members-container {
+    position: relative;
+    display: inline-block;
+    width: 450px;
+}
+
+#menu-about li, #menu-members li {
+    display: inline-block;
+    text-transform: uppercase;
+    font-size: 12px;
+    padding: 0 10px;
+}
+#menu-about li:not(:last-child), #menu-members li:not(:last-child) {
+    border-right: 1px solid #e8e8e8;    
+}
+
+#menu-about a, #menu-members a {
+    color: #013652;
+    text-decoration: none;
+}
+
+.current-menu-item a { font-weight: 700; } 
+
+.page-head img {
+    display: inline-block;
+    float: right;
+    margin-top: 4px;
+}
