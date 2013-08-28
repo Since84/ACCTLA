@@ -65,7 +65,7 @@ class EM_Location extends EM_Object {
 	 * @access protected
 	 * @var mixed
 	 */
-	var $previous_status = 0;
+	var $previous_status = false;
 	
 	/* Post Variables - copied out of post object for easy IDE reference */
 	var $ID;
@@ -182,7 +182,6 @@ class EM_Location extends EM_Object {
 			foreach( $location_post as $key => $value ){ //merge the post data into location object
 				$this->$key = $value;
 			}
-			$this->previous_status = $this->location_status; //so we know about updates
 			$this->get_status();
 		}elseif( !empty($this->post_id) ){
 			//we have an orphan... show it, so that we can at least remove it on the front-end
@@ -400,7 +399,7 @@ class EM_Location extends EM_Object {
 					$this->feedback_message = sprintf(__('Successfully saved %s','dbem'),__('Location','dbem'));
 				}	
 			}else{
-				$this->previous_status = $wpdb->get_var('SELECT location_status FROM '.EM_LOCATIONS_TABLE.' WHERE location_id='.$this->location_id); //get status from db, not post_status
+				$this->get_previous_status();
 				if ( $wpdb->update(EM_LOCATIONS_TABLE, $location_array, array('location_id'=>$this->location_id)) === false ){
 					$this->add_error( sprintf(__('Something went wrong updating your %s to the index table. Please inform a site administrator about this.','dbem'),__('location','dbem')));			
 				}else{
@@ -481,16 +480,17 @@ class EM_Location extends EM_Object {
 			$this->post_status = 'trash'; //set post status in this instance
 		}else{
 			$set_status = $status ? 1:0;
+			$post_status = $set_status ? 'publish':'pending';
 			if($set_post_status){
-				if($this->post_status == 'pending'){
+				if($this->post_status == 'pending' && empty($this->post_name)){
 					$this->post_name = sanitize_title($this->post_title);
 				}
-				$wpdb->update( $wpdb->posts, array( 'post_status' => $this->post_status, 'post_name' => $this->post_name ), array( 'ID' => $this->post_id ) );
+				$wpdb->update( $wpdb->posts, array( 'post_status' => $post_status, 'post_name' => $this->post_name ), array( 'ID' => $this->post_id ) );
 			}
-			$this->post_status = $set_status ? 'publish':'pending';
+			$this->post_status = $post_status;
 		}
 		$this->previous_status = $wpdb->get_var('SELECT location_status FROM '.EM_LOCATIONS_TABLE.' WHERE location_id='.$this->location_id); //get status from db, not post_status, as posts get saved quickly
-		$result = $wpdb->query("UPDATE ".EM_LOCATIONS_TABLE." SET location_status=$set_status WHERE location_id={$this->location_id}");
+		$result = $wpdb->query($wpdb->prepare("UPDATE ".EM_LOCATIONS_TABLE." SET location_status=$set_status AND location_slug=%s WHERE location_id=%d", array($this->post_name, $this->location_id)));
 		$this->get_status();
 		return apply_filters('em_location_set_status', $result !== false, $status, $this);
 	}	
@@ -521,7 +521,15 @@ class EM_Location extends EM_Object {
 		}
 		return $status;
 	}
-
+	
+	function get_previous_status( $force = false ){
+		global $wpdb;
+		if( $this->previous_status === false || $force ){
+			$this->previous_status = $wpdb->get_var('SELECT location_status FROM '.EM_LOCATIONS_TABLE.' WHERE location_id='.$this->location_id); //get status from db, not post_status
+		}
+		return $this->previous_status;
+	}
+	
 	function load_similar($criteria){
 		global $wpdb;
 		if( !empty($criteria['location_name']) && !empty($criteria['location_name']) && !empty($criteria['location_name']) ){
@@ -843,7 +851,7 @@ class EM_Location extends EM_Object {
 					else{ $scope = 'all'; }
 					$events_count = EM_Events::count( array('location'=>$this->location_id, 'scope'=>$scope) );
 					if ( $events_count > 0 ){
-					    $args = array('location'=>$this->location_id, 'scope'=>$scope, 'pagination'=>1);
+					    $args = array('location'=>$this->location_id, 'scope'=>$scope, 'pagination'=>1, 'ajax'=>0);
 					    $args['format_header'] = get_option('dbem_location_event_list_item_header_format');
 					    $args['format_footer'] = get_option('dbem_location_event_list_item_footer_format');
 					    $args['format'] = get_option('dbem_location_event_list_item_format');

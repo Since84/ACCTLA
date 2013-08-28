@@ -13,7 +13,8 @@ class EM_Event_Post_Admin{
 			add_action('admin_notices',array('EM_Event_Post_Admin','admin_notices'));
 		}
 		//Save/Edit actions
-		add_action('save_post',array('EM_Event_Post_Admin','save_post'),10,1);
+		add_filter('wp_insert_post_data',array('EM_Event_Post_Admin','wp_insert_post_data'),100,2); //validate post meta before saving is done
+		add_action('save_post',array('EM_Event_Post_Admin','save_post'),1,1); //set to 1 so metadata gets saved ASAP
 		add_action('before_delete_post',array('EM_Event_Post_Admin','before_delete_post'),10,1);
 		add_action('trashed_post',array('EM_Event_Post_Admin','trashed_post'),10,1);
 		add_action('untrash_post',array('EM_Event_Post_Admin','untrash_post'),10,1);
@@ -62,6 +63,26 @@ class EM_Event_Post_Admin{
 		return $messages;
 	}
 	
+	public static function wp_insert_post_data( $data, $postarr ){
+		global $wpdb, $EM_Event, $EM_Location, $EM_Notices;
+		$post_type = $data['post_type'];
+		$post_ID = !empty($postarr['ID']) ? $postarr['ID'] : false;
+		$is_post_type = $post_type == EM_POST_TYPE_EVENT || $post_type == 'event-recurring';
+		$saving_status = !in_array($data['post_status'], array('trash','auto-draft')) && !defined('DOING_AUTOSAVE');
+		$untrashing = $post_ID && defined('UNTRASHING_'.$post_ID);
+		if( !$untrashing && $is_post_type && $saving_status ){
+			if( !empty($_REQUEST['_emnonce']) && wp_verify_nonce($_REQUEST['_emnonce'], 'edit_event') ){ 
+				//this is only run if we know form data was submitted, hence the nonce
+				$EM_Event = em_get_event();
+				//Handle Errors by making post draft
+				$get_meta = $EM_Event->get_post_meta();
+				$validate_meta = $EM_Event->validate_meta();
+				if( !$get_meta || !$validate_meta ) $data['post_status'] = 'draft';
+			}
+		}
+		return $data;
+	}
+	
 	public static function save_post($post_id){
 		global $wpdb, $EM_Event, $EM_Location, $EM_Notices;
 		$post_type = get_post_type($post_id);
@@ -103,6 +124,7 @@ class EM_Event_Post_Admin{
 					$event_truly_exists = $wpdb->get_var('SELECT event_id FROM '.EM_EVENTS_TABLE." WHERE event_id={$EM_Event->event_id}") == $EM_Event->event_id;
 					if(empty($EM_Event->event_id) || !$event_truly_exists){ $EM_Event->save_meta(); }
 					//we can save the status now
+					$EM_Event->get_previous_status(); //before we save anything
 					$event_status = $EM_Event->get_status(true);
 					//if this is just published, we need to email the user about the publication, or send to pending mode again for review
 					if( (!$EM_Event->is_recurring() && !current_user_can('publish_events')) || ($EM_Event->is_recurring() && !current_user_can('publish_recurring_events')) ){

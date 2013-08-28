@@ -12,5 +12,8 @@
 		<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 		<link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri(); ?>/img/favicon.ico"/>
 		<?php wp_head(); ?>
+		<!--[if IE 8 ]>
+			<link rel="stylesheet" type="text/css" href="<?php bloginfo('template_directory'); ?>/styles/stylesheets/ie.css" />
+		<![endif]-->
 	</head>
 	<body <?php body_class(); ?>>

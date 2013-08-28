@@ -28,9 +28,10 @@
 	add_theme_support('post-thumbnails');
 	add_theme_support( 'menus' );
 	
-	register_nav_menus(array('primary' => 'Primary Navigation',
-							 'members' => 'Membership',
-							 'about' => 'About Us')
+	register_nav_menus(array('primary' 	=> 'Primary Navigation',
+							 'sign-up' 	=> 'Sign Up',
+							 'members' 	=> 'Membership',
+							 'about' 	=> 'About Us')
 					  );
 	
 	
